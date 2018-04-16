@@ -11,6 +11,6 @@ Rails.application.routes.draw do
 
   post 'songs/:song_id/listeners' => 'listeners#create'
 
-  match '' => redirect('/main'), via: :get #send root route to /main instead of rails welcome page
-  match '*path' => redirect('/main'), via: :get #send all unknown routes to /main
+  match '' => redirect('/songs'), via: :get #send root route to /main instead of rails welcome page
+  match '*path' => redirect('/songs'), via: :get #send all unknown routes to /main
 end
