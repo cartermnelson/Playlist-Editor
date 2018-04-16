@@ -1,33 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>BeltExam</title>
+  <title>Playlist Builder</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
+<div class="container">
 
   <% if current_user %>
-    <a href="/logout" data-method="post">Logout</a>
-    <hr>
+    <nav class="navbar">
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/songs">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/users/<%= current_user.id %>">My Playlist</a>
+        </li>
+      </ul>
+
+      <span class="navbar-text">Hello, <%= current_user.first_name %> <%= current_user.last_name %></span>
+
+      <form class="form-inline" action="/logout" method="post">
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+        <input class="btn" type="submit" value="Log Out">
+      </form>
+    </nav>
   <% end %>
 
   <% if flash[:errors] %>
-    <% flash[:errors].each do |e| %>
-      <b style="color: red"><%= e %></b>
-      <br>
-    <% end %>
+    <div class="alert alert-danger">
+      <% flash[:errors].each do |e| %>
+        <%= e %>
+        <br>
+      <% end %>
+    </div>
   <% end %>
 
   <% if flash[:notice] %>
-    <% flash[:notice].each do |n| %>
-      <b style="color: green"><%= n %></b>
-      <br>
-    <% end %>
+    <div class="alert alert-success">
+      <% flash[:notice].each do |n| %>
+        <%= n %>
+        <br>
+      <% end %>
+    </div>
   <% end %>
 
 <%= yield %>
 
+</div>
 </body>
 </html>
