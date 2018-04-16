@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20180223173033) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "listeners", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "song_id"
@@ -21,8 +24,8 @@ ActiveRecord::Schema.define(version: 20180223173033) do
     t.datetime "updated_at", null: false
   end
 
-  add_index "listeners", ["song_id"], name: "index_listeners_on_song_id"
-  add_index "listeners", ["user_id"], name: "index_listeners_on_user_id"
+  add_index "listeners", ["song_id"], name: "index_listeners_on_song_id", using: :btree
+  add_index "listeners", ["user_id"], name: "index_listeners_on_user_id", using: :btree
 
   create_table "songs", force: :cascade do |t|
     t.string   "title"
@@ -41,4 +44,6 @@ ActiveRecord::Schema.define(version: 20180223173033) do
     t.datetime "updated_at",      null: false
   end
 
+  add_foreign_key "listeners", "songs"
+  add_foreign_key "listeners", "users"
 end
